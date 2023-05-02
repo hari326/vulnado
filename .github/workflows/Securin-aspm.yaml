@@ -13,7 +13,7 @@ jobs:
     env:
       APP_ID: ef621aa2515025e59b10f0ac3fefc57047bbf7f97f93f66761a2dffed292b5db
       BRANCH_NAME: snyk-upgrade-7020a07a18468ab0b33ccadab2f539f3
-      SCAN_ID: ec73b4b421c6edcb96a01bdf73bb18c4136ce85a50a86987684bc6ed9d4c662e
+      SCAN_ID: 41bdf92572ddccda301b265121a6d9542cff8ddd1005a55a24ab974b72a64338
       REQ_URL_MAP: "${{toJSON('{\"SL_RESULT_API_HOST\":\"https://slresultapi.qa.securin.io/resultapi\"\
         ,\"SL_RESULTPARSER_API_HOST\":\"https://slresultparserapi.qa.securin.io/resultparserapi\"\
         }')}}"
