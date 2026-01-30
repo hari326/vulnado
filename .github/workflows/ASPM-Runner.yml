@@ -16,11 +16,11 @@ on:
 
 jobs:
   scanning:
-    runs-on: [self-hosted, linux]
+    runs-on: "ubuntu-latest"
     env:
       workdir: "${{ github.workspace }}/wrkdir"
-      ACCOUNT_ID: "1235154"
-      CONNECTOR_ID: "8606"
+      ACCOUNT_ID: "1235152"
+      CONNECTOR_ID: "10037"
       XDG_CONFIG_HOME: "${{ github.workspace }}/wrkdir/.config"
       SECURIN_LOG_DIR: "${{ github.workspace }}/wrkdir/logs"
 
@@ -40,8 +40,8 @@ jobs:
         run: |
           # Fetch and configure AWS credentials
           echo "Fetching AWS credentials..."
-          RESPONSE=$(curl -s -H "x-user-id: -1" -H "x-api-key: ${{ env.API_KEY }}" \
-            "https://slresultapi.qa.securin.io/resultapi/api/v1/accounts/${{ env.ACCOUNT_ID }}/aws/_token")
+          RESPONSE=$(curl -s -H "API_KEY: ${{ secrets.QA_API_KEY }}" \
+            "https://apigateway.qa.securin.io/resultapi/api/v1/accounts/${{ env.ACCOUNT_ID }}/aws/_token")
           
           ACCESS_KEY=$(echo "$RESPONSE" | jq -r '.accessKey')
           SECRET_KEY=$(echo "$RESPONSE" | jq -r '.secretKey')
@@ -74,7 +74,7 @@ jobs:
           touch "${{ env.workdir }}/logs/securin-cli.log"
           chmod 666 "${{ env.workdir }}/logs/securin-cli.log"
           
-          ./ASPMRunner scan --connector_id "${{ env.CONNECTOR_ID }}" --account_id "${{ env.ACCOUNT_ID }}" --api_key "7d59f976708c3dad92bd420c54209018f046cead381dfabae5d1f5b73efbe1df" --scan_type SCA,SECRETS,CONTAINER,IAC
+          ./ASPMRunner scan --connector_id "${{ env.CONNECTOR_ID }}" --account_id "${{ env.ACCOUNT_ID }}" --api_key "${{ secrets.QA_API_KEY }}" --scan_type SCA,SECRETS,CONTAINER,IAC,MCP
 
       - name: Upload Results
         uses: actions/upload-artifact@v4
